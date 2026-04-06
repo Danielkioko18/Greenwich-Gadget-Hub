@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greenwich Gadget Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    
+    /* Hero section */
+    .home-hero {
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 400px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .home-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(ellipse, rgba(0,229,160,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 20px;
+      padding: 0.35rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .home-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--white);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .home-hero h1 .line2 { color: var(--cyan); }
+
+    .home-hero .subtitle {
+      color: var(--light);
+      font-size: 1.15rem;
+      font-weight: 300;
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /*stats bar */
+    .stats-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .stat-item {}
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--cyan);
+      letter-spacing: -0.03em;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /*categories */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 0;
+    }
+
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cat-card img {
+      width: 100px; height: 100px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+    }
+
+    .cat-card:hover {
+      border-color: rgba(0,212,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    .cat-icon { font-size: 2rem; }
+
+    .cat-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--white);
+    }
+
+    .cat-count { font-size: 0.78rem; color: var(--muted); }
+
+    /*features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+    }
+
+    .feature-icon {
+      width: 210px; height: 210px;
+      background: rgba(0,212,255,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /*featured products */
+    .product-mini {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .product-mini:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
+
+    .product-mini-img {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .product-mini-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .logo-icon img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .product-mini-info { flex: 1; }
+    .product-mini-name { font-weight: 500; color: var(--white); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .product-mini-cat { font-size: 0.78rem; color: var(--muted); }
+    .product-mini-price { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--cyan); font-size: 1.05rem; }
+
+    @media (max-width: 768px) {
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="images/logo.png" alt="Greenwich Gadget Hub Logo" />
+        </div>
+        <div class="logo-text">
+          Greenwich Gadget Hub
+        </div>
+      </a>
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="home-hero">
+    <div class="hero-eyebrow">Now open in Greenwich</div>
+    <h1>
+      Your local source for<br>
+      <span class="line2">premium tech gadgets</span>
+    </h1>
+    <p class="subtitle">
+      From wireless accessories to smart home devices, Everything you need to upgrade your setup, right here in Greenwich.
+    </p>
+    <div class="hero-cta">
+      <a href="products.html" class="btn btn-primary">Browse Products</a>
+      <a href="about.html" class="btn btn-outline">Learn More</a>
+    </div>
+  </section>
+
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.8★</div>
+        <div class="stat-label">Avg Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5k+</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Same Day</div>
+        <div class="stat-label">Click &amp; Collect</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+
+    <!-- CATEGORIES -->
+    <section style="margin-bottom: 3.5rem;">
+      <p class="section-title">Shop by Category</p>
+      <div class="section-divider"></div>
+      <div class="cat-grid">
+        <a href="products.html" class="cat-card">
+          <img src="images/mouse.jpg" alt="Wireless Mouse">
+          <span class="cat-name">Peripherals</span>
+          <span class="cat-count">24 items</span>
+        </a>
+        <a href="products.html" class="cat-card">
+          <img src="images/accessories.jpg" alt="Accessories">
+          <span class="cat-name">Accessories</span>
+          <span class="cat-count">38 items</span>
+        </a>
+        <a href="products.html" class="cat-card">
+          <img src="images/bulb.png" alt="Smart Bulb">
+          <span class="cat-name">Smart Home</span>
+          <span class="cat-count">17 items</span>
+        </a>
+        <a href="products.html" class="cat-card">
+          <img src="images/headphones.jpg" alt="Wireless Headphones">
+          <span class="cat-name">Audio</span>
+          <span class="cat-count">29 items</span>
+        </a>
+        <a href="products.html" class="cat-card">
+          <img src="images/cameras.jpg" alt="Digital Camera">
+          <span class="cat-name">Cameras</span>
+          <span class="cat-count">15 items</span>
+        </a>
+        <a href="products.html" class="cat-card">
+          <img src="images/charge.jpg" alt="Wireless Charger">
+          <span class="cat-name">Charging</span>
+          <span class="cat-count">21 items</span>
+        </a>
+      </div>
+    </section>
+
+
+    <!-- WHY US -->
+    <section>
+      <p class="section-title">Why Greenwich Gadget Hub?</p>
+      <div class="section-divider"></div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <img src="images/fast delivery.jpg" alt="Fast Delivery" class="feature-icon" />
+          <h3>Fast Click &amp; Collect</h3>
+          <p>Order online and collect from our Greenwich store the same day. No waiting, no delivery fees</p>
+        </div>
+        <div class="feature-card">
+          <img src="images/warranty.jpg" alt="Warranty" class="feature-icon" />
+          <h3>2-Year Warranty</h3>
+          <p>Every product comes with our standard 2-year warranty. We stand behind everything we sell</p>
+        </div>
+        <div class="feature-card">
+          <img src="images/expert.jpg" alt="Expert Advice" class="feature-icon" />
+          <h3>Expert Advice</h3>
+          <p>Our in-store team are passionate tech enthusiasts, ready to help you find the right product.</p>
+        </div>
+        <div class="feature-card">
+          <img src="images/return.jpg" alt="30-Day Returns" class="feature-icon" />
+          <h3>30-Day Returns</h3>
+          <p>Changed your mind? Return any item within 30 days for a full refund</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- page footer-->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 Greenwich Gadget Hub. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="about.html">About Us</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

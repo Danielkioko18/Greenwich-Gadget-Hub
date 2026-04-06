@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products — Greenwich Gadget Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.45rem 1rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .filter-btn.active { background: rgba(0,212,255,0.12); color: var(--cyan); border-color: rgba(0,212,255,0.4); }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    .product-img {
+      height: 250px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .product-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    .product-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.6; flex: 1; }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .product-price {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--cyan);
+    }
+
+    .product-stock {
+      font-size: 0.75rem;
+      color: var(--green);
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.2);
+      border-radius: 12px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .results-count { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .results-count span { color: var(--cyan); font-weight: 600; }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    .logo-icon img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .no-results h3 { font-family: 'Syne', sans-serif; color: var(--light); margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="images/logo.png" alt="Greenwich Gadget Hub Logo" />
+        </div>
+        <div class="logo-text">
+          Greenwich Gadget Hub
+        </div>
+      </a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Our <span class="accent">Products</span></h1>
+    <p>Browse our full range of tech accessories, peripherals, and gadgets. All in stock and ready to collect.</p>
+  </div>
+
+  <main>
+    <!-- Filter butttons -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-cat="all" onclick="filterProducts('all', this)">All Products</button>
+      <button class="filter-btn" data-cat="Peripherals" onclick="filterProducts('Peripherals', this)">🖱️ Peripherals</button>
+      <button class="filter-btn" data-cat="Accessories" onclick="filterProducts('Accessories', this)">🔌 Accessories</button>
+      <button class="filter-btn" data-cat="Audio" onclick="filterProducts('Audio', this)">🎧 Audio</button>
+      <button class="filter-btn" data-cat="Smart Home" onclick="filterProducts('Smart Home', this)">💡 Smart Home</button>
+      <button class="filter-btn" data-cat="Charging" onclick="filterProducts('Charging', this)">🔋 Charging</button>
+    </div>
+
+    
+    <div class="results-count" id="resultsCount">Showing <span id="countNum">8</span> products</div>
+
+    <div class="grid-3" id="productGrid"></div>
+    <div class="no-results" id="noResults">
+      <h3>No products found</h3>
+      <p>Try selecting a different category.</p>
+    </div>
+  </main>
+
+
+
+  <!-- footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 Greenwich Gadget Hub. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="about.html">About Us</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Product data and rendering logic -->
+  <!--Javasript code -->
+  <script>
+    //product data
+    const products = [
+      {
+        id: 1,
+        name: "Wireless Mouse",
+        description: "Ergonomic wireless mouse with a precision optical sensor, silent click buttons, and USB nano-receiver. Up to 12 months battery life",
+        category: "Peripherals",
+        price: "£19.99",
+        stock: "In Stock",
+        image: "images/mouse.jpg"
+      },
+      {
+        id: 2,
+        name: "USB-C Hub 7-in-1",
+        description: "Expand your laptop's connectivity with 2× USB-A, HDMI 4K, SD card reader, and 100W PD charging All in a slim aluminium body",
+        category: "Accessories",
+        price: "£34.99",
+        stock: "In Stock",
+        image: "images/hub.jpg"
+      },
+      {
+        id: 3,
+        name: "Mechanical Keyboard",
+        description: "Compact TKL mechanical keyboard with tactile brown switches and per-key RGB lighting. USB-C detachable cable included",
+        category: "Peripherals",
+        price: "£59.99",
+        stock: "In Stock",
+        image: "images/keyboard.jpg"
+      },
+      {
+        id: 4,
+        name: "Aluminium Laptop Stand",
+        description: "Adjustable aluminium stand with 6 height levels, foldable for travel. Supports laptops up to 17 inches and reduces neck strain.",
+        category: "Accessories",
+        price: "£29.99",
+        stock: "In Stock",
+        image: "images/stand.jpg"
+      },
+      {
+        id: 5,
+        name: "HD Webcam 1080p",
+        description: "Full HD webcam with built-in noise-reducing dual microphone, auto light correction, and universal clip for monitors and laptopss",
+        category: "Accessories",
+        price: "£44.99",
+        stock: "In Stock",
+        image: "images/webcam.jpg"
+      },
+      {
+        id: 6,
+        name: "LED Desk Lamp",
+        description: "Touch-control LED lamp with 5 colour temperatures, adjustable brightness, and a built-in USB-A charging port. Eye-care certified.",
+        category: "Smart Home",
+        price: "£24.99",
+        stock: "In Stock",
+        image: "images/ledlamp.jpg"
+      },
+      {
+        id: 7,
+        name: "Noise-Cancelling Headphones",
+        description: "Over-ear headphones with active noise cancellation, 30-hour playtime, and foldable design. Compatible with all Bluetooth 5.0 devices.",
+        category: "Audio",
+        price: "£79.99",
+        stock: "Low Stock",
+        image: "images/headphones.jpg"
+      },
+      {
+        id: 8,
+        name: "Adjustable Phone Holder",
+        description: "Universal desk stand for phones and tablets up to 12.9 inches. 360° rotation, anti-slip base, and one-hand tilt adjustment.",
+        category: "Accessories",
+        price: "£14.99",
+        stock: "In Stock",
+        image: "images/phoneholder.jpg"
+      },
+      {
+        id: 9,
+        name: "Smart Plug (Wi-Fi)",
+        description: "Control any appliance remotely via app or voice assistant. Tracks energy usage and supports scheduling and automation routines.",
+        category: "Smart Home",
+        price: "£18.99",
+        stock: "In Stock",
+        image: "images/smartcharger.jpg"
+      },
+      {
+        id: 10,
+        name: "Portable Charger 20000mAh",
+        description: "High-capacity power bank with dual USB-A and USB-C outputs. Charges a smartphone up to 5 times. Airline-safe capacity.",
+        category: "Charging",
+        price: "£39.99",
+        stock: "In Stock",
+        image: "images/portablecharger.jpg"
+      },
+      {
+        id: 11,
+        name: "Wireless Charging Pad",
+        description: "15W fast Qi wireless charger compatible with all Qi-enabled devices. Slim profile, LED indicator, and non-slip surface.",
+        category: "Charging",
+        price: "£22.99",
+        stock: "In Stock",
+        image: "images/wirelesscharger.jpg"
+      },
+      {
+        id: 12,
+        name: "Bluetooth Speaker",
+        description: "Compact portable speaker with rich 360° sound, IPX5 waterproof rating, and 12-hour battery life. Perfect for home and travel.",
+        category: "Audio",
+        price: "£34.99",
+        stock: "In Stock",
+        image: "images/speaker.jpg"
+      }
+    ];
+
+    //function to render products
+    function renderProducts(list) {
+      const grid = document.getElementById('productGrid');
+      const noResults = document.getElementById('noResults');
+      const countNum = document.getElementById('countNum');
+
+      if (list.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+        countNum.textContent = '0';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      noResults.style.display = 'none';
+      countNum.textContent = list.length;
+
+      //generate product cards
+      grid.innerHTML = list.map(p => `
+        <div class="product-card">
+          <div class="product-img">
+            <img src="${p.image}" alt="${p.name}" style="width:100%; height:100%; object-fit:contain;">
+          </div>
+          <div class="product-body">
+            <div>
+              <span class="badge" style="margin-bottom:0.5rem">${p.category}</span>
+            </div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-desc">${p.description}</div>
+            <div class="product-footer">
+              <span class="product-price">${p.price}</span>
+              <span class="product-stock">${p.stock}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+
+    //function to filter products by category
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+      renderProducts(filtered);
+    }
+
+    //initial render of all products
+    renderProducts(products);
+  </script>
+
+</body>
+</html>
