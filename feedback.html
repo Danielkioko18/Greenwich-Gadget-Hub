@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback — Greenwich Gadget Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .feedback-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .form-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .form-card .form-intro {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Star rating */
+    .star-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 0.3rem;
+    }
+
+    .star-rating input[type="radio"] { display: none; }
+
+    .star-rating label {
+      font-size: 2rem;
+      color: var(--border);
+      cursor: pointer;
+      transition: color 0.15s, transform 0.1s;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .star-rating input[type="radio"]:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #f5c518;
+    }
+
+    .star-rating label:hover { transform: scale(1.2); }
+
+    /* Sidebar info cards */
+    .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .info-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--white);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .review-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .review-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .review-stars { color: #f5c518; font-size: 0.85rem; margin-bottom: 0.3rem; }
+    .review-text { color: var(--light); font-size: 0.875rem; line-height: 1.5; margin-bottom: 0.3rem; }
+    .review-author { color: var(--muted); font-size: 0.78rem; }
+
+    .consent-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .consent-group input[type="checkbox"] {
+      width: auto;
+      margin-top: 2px;
+      accent-color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .consent-group label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+
+    .logo-icon img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+
+    @media (max-width: 900px) {
+      .feedback-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="images/logo.png" alt="Greenwich Gadget Hub Logo" />
+        </div>
+        <div class="logo-text">
+          Greenwich Gadget Hub
+        </div>
+      </a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html" class="active">Feedback</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <h1>Share Your <span class="accent">Feedback</span></h1>
+    <p>We genuinely value your opinion. Let us know how your experience was. It helps us improve for everyone.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="feedback-layout">
+
+      <!-- FORM -->
+      <div class="form-card">
+        <h2>Leave a Review</h2>
+        <p class="form-intro">All fields marked with <span style="color:var(--cyan)">*</span> are required.</p>
+
+        <form id="feedbackForm" novalidate onsubmit="submitFeedback(event)">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name <span class="required">*</span></label>
+              <input type="text" id="firstName" name="firstName" placeholder="e.g. James" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name <span class="required">*</span></label>
+              <input type="text" id="lastName" name="lastName" placeholder="e.g. Anderson" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="yourname@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="07700 900 000" />
+          </div>
+
+          <div class="form-group">
+            <label for="orderRef">Order Reference</label>
+            <input type="text" id="orderRef" name="orderRef" placeholder="e.g. ORD-2024-001" />
+          </div>
+
+          <!-- feedback category and rating -->
+          <div class="form-group">
+            <label for="category">Feedback Category <span class="required">*</span></label>
+            <select id="category" name="category" required>
+              <option value="" disabled selected>Select a category…</option>
+              <option value="product">Product Quality</option>
+              <option value="service">Customer Service</option>
+              <option value="delivery">Delivery / Collection</option>
+              <option value="website">Website Experience</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <!-- star rating -->
+          <div class="form-group">
+            <label>Overall Rating <span class="required">*</span></label>
+            <div class="star-rating" role="group" aria-label="Star rating">
+              <input type="radio" id="star5" name="rating" value="5" required />
+              <label for="star5" title="5 stars — Excellent" aria-label="5 stars">★</label>
+              <input type="radio" id="star4" name="rating" value="4" />
+              <label for="star4" title="4 stars — Good" aria-label="4 stars">★</label>
+              <input type="radio" id="star3" name="rating" value="3" />
+              <label for="star3" title="3 stars — Average" aria-label="3 stars">★</label>
+              <input type="radio" id="star2" name="rating" value="2" />
+              <label for="star2" title="2 stars — Poor" aria-label="2 stars">★</label>
+              <input type="radio" id="star1" name="rating" value="1" />
+              <label for="star1" title="1 star — Very Poor" aria-label="1 star">★</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Your Comments <span class="required">*</span></label>
+            <textarea id="comments" name="comments" placeholder="Tell us about your experience — what did you love, or what could we improve?" rows="5" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="consent-group">
+              <input type="checkbox" id="consent" name="consent" required />
+              <label for="consent">
+                I agree to my feedback being used to help improve Greenwich Gadget Hub's products and services. I confirm the information provided is accurate.
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.85rem;">
+            Submit Feedback
+          </button>
+
+          <p id="formError" style="color:#ff6b6b; font-size:0.85rem; margin-top:0.75rem; display:none;">
+            Please fill in all required fields before submitting.
+          </p>
+        </form>
+
+        <!-- Thank you messsage -->
+        <div class="thank-you" id="thankYou">
+          <div style="font-size:2.5rem; margin-bottom:0.75rem;">✅</div>
+          <h3>Thank You for Your Feedback!</h3>
+          <p>We really appreciate you taking the time to share your experience. Your review helps us serve our customers better.</p>
+          <div style="margin-top:1.25rem;">
+            <a href="products.html" class="btn btn-outline">Browse More Products</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="info-card">
+          <h3>⭐ Recent Reviews</h3>
+          <div class="review-item">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Excellent products, arrived quickly and well packaged. Will definitely order again!"</div>
+            <div class="review-author">James A. — November 2024</div>
+          </div>
+          <div class="review-item">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Keyboard is fantastic, exactly as described. The RGB lighting is a nice bonus."</div>
+            <div class="review-author">Emma D. — November 2024</div>
+          </div>
+          <div class="review-item">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">"Good webcam, easy to set up. A bit pricey but the quality is definitely there."</div>
+            <div class="review-author">Sophie F. — November 2024</div>
+          </div>
+          <div class="review-item">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Amazing headphones, worth every penny. The noise cancellation is brilliant."</div>
+            <div class="review-author">William G. — December 2024</div>
+          </div>
+        </div>
+
+        <!-- Need help card -->
+        <div class="info-card">
+          <h3>💬 Need Help?</h3>
+          <p style="color:var(--muted); font-size:0.875rem; line-height:1.6; margin-bottom:1rem;">
+            If you have a specific issue with an order, please contact us directly for a faster response.
+          </p>
+          <a href="about.html" class="btn btn-outline" style="width:100%; justify-content:center;">Contact Us</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 Greenwich Gadget Hub. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="about.html">About Us</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- JavaScript for form handling -->
+  <script>
+    //Form submission handler
+    function submitFeedback(e) {
+      e.preventDefault();
+      const form = document.getElementById('feedbackForm');
+      const errorMsg = document.getElementById('formError');
+
+      //Gather form data
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const category = document.getElementById('category').value;
+      const rating = document.querySelector('input[name="rating"]:checked');
+      const comments = document.getElementById('comments').value.trim();
+      const consent = document.getElementById('consent').checked;
+
+      // Basic validation
+      if (!firstName || !lastName || !email || !category || !rating || !comments || !consent) {
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      errorMsg.style.display = 'none';
+      form.style.display = 'none';
+      const thankYou = document.getElementById('thankYou');
+      thankYou.style.display = 'block';
+      thankYou.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+
+</body>
+</html>
